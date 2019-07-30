@@ -1,22 +1,22 @@
 # PCG Android Developer Take Home Interview
 
-As a part of the interview process, candidates may be asked to complete a sample application in a reasonable amount of time to demonstrate competency in Android application development. The sample application entails consuming the [Penguin Random House Rest api](http://www.penguinrandomhouse.biz/webservices/rest/ "RHRS Documentation") and displaying the data on various screens. A list of the application's requirements and acceptance criteria is provided to guide your development. Additionally, for your convenience, sample API calls and the resulting JSON have been provided as an example. Just because we provide a webservice example does not necessarily mean you have to use one in every situation depending on how you choose to implement the project. For more information on the Penguin Random House Rest api, please read the documentation found [here](http://www.penguinrandomhouse.biz/webservices/rest/ "RHRS Documentation"). 
+As a part of the interview process, candidates may be asked to complete a sample application in a reasonable amount of time to demonstrate competency in Android application development. The sample application entails consuming the [Penguin Random House Rest api](http://www.penguinrandomhouse.biz/webservices/rest/ "RHRS Documentation") and displaying the data on various screens. A list of the application's requirements and acceptance criteria is provided to guide your development. Additionally, for your convenience, sample API calls and the resulting JSON have been provided as an example. Just because we provide a webservice example does not necessarily mean you have to use one in every situation depending on how you choose to implement the project. For more information on the Penguin Random House Rest api, please read the documentation found [here](http://www.penguinrandomhouse.biz/webservices/rest/ "RHRS Documentation").
 
 The candidate is free to use any libraries or archtiectural design patterns they feel will help them complete the app. Also, design is completely up to the developer. To turn in the project please open a pull request on the repository.
 
 **Requirements**
-1. As a user I need to be able to search an author's name because I am interested in reading that authors books. 
-  - **Acceptance Criteria**
-    - There is an input for a user to enter data 
-    - There is a button to initiate a search 
-    - If the input has an entry, pressing the button triggers the webservice 
-    - If the input is empty the user is notified that they have to enter valid input 
-    - **Example API call** 
-      - https://reststop.randomhouse.com/resources/authors?firstName=John&lastName=Grisham
-      - Returns a list of authors
-      - Basic JSON structure:
+1. As a user I need to be able to search an author's name because I am interested in reading that authors books.
+  * **Acceptance Criteria**
+    * There is an input for a user to enter data
+    * There is a button to initiate a search
+    * If the input has an entry, pressing the button triggers the webservice
+    * If the input is empty the user is notified that they have to enter valid input
+    * **Example API call**
+      * https://reststop.randomhouse.com/resources/authors?firstName=John&lastName=Grisham
+      * Returns a list of authors
+      * Basic JSON structure:
 ```json
-      { 
+      {
         "@uri": "https://reststop.randomhouse.com/resources/authors?firstName=John&lastName=Grisham",
         "author": [
             {
@@ -43,15 +43,15 @@ The candidate is free to use any libraries or archtiectural design patterns they
         ]
       }
 ```
-    
 
-2. As a user I need to see my search results as list because there may be more than one author returned by my search. 
-- **Acceptance Criteria**
-  - Upon a successful search, each author returned by the webservice will have their full name displayed in its own cell 
-  - **Example API call** 
-      - https://reststop.randomhouse.com/resources/authors/11178
-      - Returns single author 
-      - Basic JSON structure: 
+
+2. As a user I need to see my search results as list because there may be more than one author returned by my search.
+* **Acceptance Criteria**
+  * Upon a successful search, each author returned by the webservice will have their full name displayed in its own cell
+  * **Example API call**
+      * https://reststop.randomhouse.com/resources/authors/11178
+      * Returns single author
+      * Basic JSON structure:
 ```json
       {
         "@uri": "https://reststop.randomhouse.com/resources/authors/11178",
@@ -85,16 +85,17 @@ The candidate is free to use any libraries or archtiectural design patterns they
     }
 ```
 **BONUS**
-3. As a user I want to see an author's details and works if I tap an author's cell because I want to know more about the author and maybe read one of their books. 
-- **Acceptance Criteria** 
-  - If I tap on an author's cell I should navigate to an Author Detail screen. 
-  - The Author detail screen will display the author's full name and spotlight 
-  - A list of the author's work(books) will be displayed in a list below the author's details 
-  - A book will be represented by the book's simple web title (See JSON object titleweb)
-  - **Example API call** 
-      - https://reststop.randomhouse.com/resources/works/72131
-      - returns a single work (book)
-      - basic JSON structure
+
+3. As a user I want to see an author's details and works if I tap an author's cell because I want to know more about the author and maybe read one of their books.
+* **Acceptance Criteria**
+  * If I tap on an author's cell I should navigate to an Author Detail screen.
+  * The Author detail screen will display the author's full name and spotlight
+  * A list of the author's work(books) will be displayed in a list below the author's details
+  * A book will be represented by the book's simple web title (See JSON object titleweb)
+  * **Example API call**
+      * https://reststop.randomhouse.com/resources/works/72131
+      * returns a single work (book)
+      * basic JSON structure
 ```json
 {
     "@uri": "https://reststop.randomhouse.com/resources/works/72131",
@@ -148,8 +149,8 @@ The candidate is free to use any libraries or archtiectural design patterns they
 }
 ```
 
-4. As a user I need to be able to navigate back to any screen I have previously been because I may want to visit another author's detail screen from my previous search or search for a new author altogether. 
-- **Acceptance Criteria** 
-  - There should be a navigation indicator on every interior screen. 
-  - Pressing the navigation indicator on the Author Detail should return the user to the Author List screen. 
-  - Pressing the navigation indicator on the Author List Screen should return the user to the Search screen.
+4. As a user I need to be able to navigate back to any screen I have previously been because I may want to visit another author's detail screen from my previous search or search for a new author altogether.
+* **Acceptance Criteria**
+  * There should be a navigation indicator on every interior screen.
+  * Pressing the navigation indicator on the Author Detail should return the user to the Author List screen.
+  * Pressing the navigation indicator on the Author List Screen should return the user to the Search screen.
