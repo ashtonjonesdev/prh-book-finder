@@ -6,7 +6,7 @@ The candidate is free to use any libraries or archtiectural design patterns they
 
 **Requirements**
 
-A.  As a user I need to be able to search an author's name because I am interested in reading that authors books.
+**A.**  As a user I need to be able to search an author's name because I am interested in reading that authors books.
 
   * **Acceptance Criteria**
 
@@ -48,7 +48,7 @@ A.  As a user I need to be able to search an author's name because I am interest
 ```
 
 
-B.  As a user I need to see my search results as list because there may be more than one author returned by my search.
+**B.**  As a user I need to see my search results as list because there may be more than one author returned by my search.
 
 *   **Acceptance Criteria**
 
@@ -90,7 +90,9 @@ B.  As a user I need to see my search results as list because there may be more 
     }
 ```
 
-C.  As a user I want to see an author's details and works if I tap an author's cell because I want to know more about the author and maybe read one of their books.
+**BONUS SECTION**
+
+**C.**  As a user I want to see an author's details and works if I tap an author's cell because I want to know more about the author and maybe read one of their books.
 
 *   **Acceptance Criteria**
 
@@ -155,7 +157,7 @@ C.  As a user I want to see an author's details and works if I tap an author's c
 }
 ```
 
-D.  As a user I need to be able to navigate back to any screen I have previously been because I may want to visit another author's detail screen from my previous search or search for a new author altogether.
+**D.**  As a user I need to be able to navigate back to any screen I have previously been because I may want to visit another author's detail screen from my previous search or search for a new author altogether.
 
 *   **Acceptance Criteria**
 
