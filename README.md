@@ -1,8 +1,8 @@
 # PCG Android Developer Take Home Interview
 
-As a part of the interview process, candidates may be asked to complete a sample application in a reasonable amount of time to demonstrate competency in Android application development. The sample application entails consuming the [Penguin Random House Rest api](http://www.penguinrandomhouse.biz/webservices/rest/ "RHRS Documentation") and displaying the data on various screens. A list of the application's requirements and acceptance criteria is provided to guide your development. Additionally, for your convenience, sample API calls and the resulting JSON have been provided as an example. Just because we provide a webservice example does not necessarily mean you have to use one in every situation depending on how you choose to implement the project. For more information on the Penguin Random House Rest api, please read the documentation found [here](http://www.penguinrandomhouse.biz/webservices/rest/ "RHRS Documentation").
+As a part of the interview process, candidates may be asked to complete a sample application in a reasonable amount of time to demonstrate competency in Android application development. The sample application entails consuming the [Penguin Random House Rest api](http://www.penguinrandomhouse.biz/webservices/rest/ "RHRS Documentation") and displaying the data on various screens. A list of the application's requirements and acceptance criteria is provided to guide your development. Additionally, for your convenience, sample API calls and the resulting JSON have been provided as an example. Just because we provide a web service example does not necessarily mean you have to use one in every situation depending on how you choose to implement the project. For more information on the Penguin Random House Rest API, please read the documentation found [here](http://www.penguinrandomhouse.biz/webservices/rest/ "RHRS Documentation").
 
-The candidate is free to use any libraries or archtiectural design patterns they feel will help them complete the app. Also, design is completely up to the developer. To turn in the project please open a pull request on the repository.
+The candidate is free to use any libraries or architectural design patterns they feel will help them complete the app. Also, the design is completely up to the developer. To turn in the project please open a pull request on the repository.
 
 **Requirements**
 
@@ -54,6 +54,7 @@ The candidate is free to use any libraries or archtiectural design patterns they
 
   *     Upon a successful search, each author returned by the webservice will have their full name displayed in its own cell
   *     **Example API call**
+      *     Use data returned from previous web service, or
       *     https://reststop.randomhouse.com/resources/authors/11178
       *     Returns single author
       *     Basic JSON structure:
@@ -101,6 +102,7 @@ The candidate is free to use any libraries or archtiectural design patterns they
   *     A list of the author's work(books) will be displayed in a list below the author's details
   *     A book will be represented by the book's simple web title (See JSON object titleweb)
   *     **Example API call**
+      *     Use data returned from previous web service, or
       *     https://reststop.randomhouse.com/resources/works/72131
       *     returns a single work (book)
       *     basic JSON structure
