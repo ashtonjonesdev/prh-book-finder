@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/dest_home_fragment">
+
+    <fragment
+        android:id="@+id/dest_home_fragment"
+        android:name="com.paulconsulting.pcgandroidinterview.fragments.HomeFragment"
+        android:label="Book Search"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_dest_home_fragment_to_dest_author_details"
+            app:destination="@id/dest_author_details" />
+    </fragment>
+    <fragment
+        android:id="@+id/dest_author_details"
+        android:name="com.paulconsulting.pcgandroidinterview.fragments.AuthorDetailsFragment"
+        android:label="Author Details"
+        tools:layout="@layout/fragment_author_details" />
+</navigation>

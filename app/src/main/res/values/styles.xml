@@ -1,11 +1,94 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+
+
+        <!--COLOR THEMING:-->
+
+        <!-- Color attributes that belong to Theme.MaterialComponents -->
+
+        <!--Primary color: The primary brand color of your app, used most predominantly in theming-->
         <item name="colorPrimary">@color/colorPrimary</item>
+
+        <!--PrimaryDark color: Used for the Top App Bar-->
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+
+        <!--PrimaryVariant color: A lighter/darker variant of your primary brand color, used sparingly in theming-->
+        <item name="colorPrimaryVariant">@color/colorPrimaryLight</item> // Lighter shade of primary color
+
+        <!--Secondary colors: accent colors for widgets that need to stand out-->
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorSecondaryVariant">@color/colorSecondaryVariant</item>
+
+        <!--Error colors-->
+        <item name="colorError">@color/colorError</item>
+        <item name="colorOnError">@color/colorHighEmphasisWhite</item>
+
+        <!--OnPrimary color-->
+        <item name="colorOnPrimary">@color/colorMediumEmphasisBlack</item> // onPrimary for shades 50-600; override this for shades 700 and above
+
+        <!--OnSecondary color-->
+        <item name="colorOnSecondary">@color/colorMediumEmphasisBlack</item> // onSecondary for shades 50-600; override this for shades 700 and above
+
+        <!--TODO: Experiment with editing the following colors:-->
+
+        <!--Surface color: The color used for surfaces (i.e. Material “sheets”)-->
+        <item name="colorSurface">@color/colorHighEmphasisWhite</item>
+
+        <!--onSurface color: The color used for elements displayed on top of your surface color-->
+        <item name="colorOnSurface">@color/colorHighEmphasisBlack</item>
+
+        <!--Background color: The color behind all other screen content-->
+        <item name="android:colorBackground">@color/colorHighEmphasisWhite</item>
+
+        <!--onBackground color: The color used for elements displayed on top of your background color-->
+        <item name="colorOnBackground">@color/colorMediumEmphasisWhite</item>
+
+
+        <!--TYPOGRAPHY THEMING:-->
+
+        <!--By default, the theme styles the typeface, weight, size, case and letter spacing for the various type scales-->
+        <!--Simply change the fontFamily and use the default styles to adhere to Material Typography guidelines-->
+
+        <item name="android:fontFamily">@font/roboto_thin</item>
+        <item name="fontFamily">@font/roboto_thin</item>
+
+
+        <!--Shape Theming:-->
+
+        <!--shapeAppearanceSmallComponent: For small components, such as Buttons and Chips-->
+        <!--shapeAppearanceMediumComponent: For medium components, such as Cards-->
+        <!--shapeAppearanceLargeComponent: For large components, such as Bottom Sheets-->
+
+        <item name="shapeAppearanceSmallComponent">@style/AppShapeAppearanceSmallComponent</item>
+        <item name="shapeAppearanceMediumComponent">@style/AppShapeAppearanceMediumComponent</item>
+        <item name="shapeAppearanceLargeComponent">@style/AppShapeAppearanceLargeComponent</item>
+
+
+
+    </style> // App Theme
+
+
+    <!--Styles for Shape Theming: Can customize the corner cut(rounded or cut) and the size of the cut-->
+
+
+    <style name="AppShapeAppearanceSmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">18dp</item>
     </style>
+
+    <style name="AppShapeAppearanceMediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">18dp</item>
+    </style>
+
+    <style name="AppShapeAppearanceLargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">18dp</item>
+    </style>
+
+
+
 
 </resources>

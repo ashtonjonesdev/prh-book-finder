@@ -1,6 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    /// Orange Color Theme: Colors based on Color #f44336, from the Penguin Random House logo
+    /// Use Material Design to create a color palette, using Black as the Secondary color
+
+    // Primary Colors
+    <color name="colorPrimary">#FA6503</color> // #900
+    <color name="colorPrimaryDark">#000000</color> // BLACK
+    <color name="colorPrimaryLight">#FB9700</color> // #700
+
+    // Primary Color Variants
+    <color name="colorPrimary50">#FFF7E0</color>
+    <color name="colorPrimary100">#FFE9B1</color>
+    <color name="colorPrimary200">#FEDB7E</color>
+    <color name="colorPrimary300">#FDCE4A</color>
+    <color name="colorPrimary400">#FDC222</color>
+    <color name="colorPrimary500">#FCB800</color>
+    <color name="colorPrimary600">#FBAA00</color>
+    <color name="colorPrimary700">#FB9700</color>
+    <color name="colorPrimary800">#FB8600</color>
+    <color name="colorPrimary900">#FA6503</color>
+
+    // Secondary/Accent color
+    <color name="colorSecondary">#000000</color> // Black
+    <color name="colorAccent">#000000</color>
+    <color name="colorSecondaryVariant">#0F0F0F</color>
+
+
+    // Surface Colors
+    <color name="colorSurface">#FFFFFF</color>
+    <color name="colorSurfaceLight">#FFFFFF</color>
+    <color name="colorSurfaceDark">#F5F5F5</color>
+
+    <!--Error color-->
+    <color name="colorError">#C51162</color>
+
+    // Black Colors (Text OnSurface AND OnPrimary #50-600)
+    <color name="colorHighEmphasisBlack">#DE000000</color> // 87% Opaque Black
+    <color name="colorMediumEmphasisBlack">#99000000</color> // 60% Opaque Black
+    <color name="colorDisabledBlack">#61000000</color> // 38% Opaque Black
+
+    // White Colors ( Text OnPrimary #700-900)
+    <color name="colorHighEmphasisWhite">#FFFFFF</color> // 100% Opaque White
+    <color name="colorMediumEmphasisWhite">#99FFFFFF</color> // 60% Opaque White
+    <color name="colorDisabledWhite">#61FFFFFF</color> // 38% Opaque White
 </resources>
