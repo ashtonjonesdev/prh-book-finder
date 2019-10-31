@@ -18,7 +18,6 @@ import com.paulconsulting.pcgandroidinterview.R;
 import com.paulconsulting.pcgandroidinterview.adapters.AuthorDetailsRecyclerViewAdapter;
 import com.paulconsulting.pcgandroidinterview.data.Author;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
@@ -39,7 +38,10 @@ public class AuthorDetailsFragment extends Fragment {
     private AuthorDetailsRecyclerViewAdapter authorDetailsRecyclerViewAdapter;
 
     /// Data: List of Authors
-    private ArrayList<Author> authorBooks;
+    private ArrayList<Author> authorDetails;
+
+    // Array of Author Books
+    private ArrayList<String> currentBooks;
 
 
 
@@ -60,7 +62,9 @@ public class AuthorDetailsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Intialize the ArrayList to an empty list to avoid null pointer exception
-        authorBooks = new ArrayList<>();
+        authorDetails = new ArrayList<>();
+
+        currentBooks = new ArrayList<>();
 
 
 
@@ -76,7 +80,7 @@ public class AuthorDetailsFragment extends Fragment {
 
         /// Setup the RecyclerView and Adapter
 
-        authorDetailsRecyclerViewAdapter = new AuthorDetailsRecyclerViewAdapter(authorBooks, getContext());
+        authorDetailsRecyclerViewAdapter = new AuthorDetailsRecyclerViewAdapter(authorDetails, getContext());
 
         authorDetailsBooksRecyclerView.setAdapter(authorDetailsRecyclerViewAdapter);
 
@@ -94,13 +98,13 @@ public class AuthorDetailsFragment extends Fragment {
 
     private void initializeData() {
 
-        for(int i = 1; i < 5; i++) {
+        for(int i = 0; i < 4; i++) {
 
-            ArrayList<String> currentBooks = new ArrayList<>();
-
-            currentBooks.add("Book #" + i);
+            currentBooks.add("Book " + i + "Book " + i + 1 );
 
             Author currentAuthor = new Author("Author", "#" + i, "Author Spotlight #" + i, currentBooks);
+
+            authorDetails.add(currentAuthor);
 
             /**
              *

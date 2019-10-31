@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +23,7 @@ import com.google.android.material.textview.MaterialTextView;
 import com.paulconsulting.pcgandroidinterview.R;
 import com.paulconsulting.pcgandroidinterview.adapters.FoundAuthorsRecyclerViewAdapter;
 import com.paulconsulting.pcgandroidinterview.data.Author;
+import com.paulconsulting.pcgandroidinterview.data.AuthorViewModel;
 
 import java.util.ArrayList;
 
@@ -46,11 +48,14 @@ public class HomeFragment extends Fragment {
     private MaterialButton searchMaterialButton;
 
     /// RecyclerView
-    private RecyclerView authorsFoundRecyclerView;
-    private FoundAuthorsRecyclerViewAdapter authorsFoundRecyclerViewAdapter;
+    private RecyclerView recyclerView;
+    private FoundAuthorsRecyclerViewAdapter adapter;
 
     /// Data: List of Authors
-    private ArrayList<Author> authorsData;
+    private ArrayList<Author> data = new ArrayList<>();
+
+    /// ViewModel
+    public static AuthorViewModel viewModel;
 
 
 
@@ -73,7 +78,7 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         /// Initialize the data list with an empty list, so there is no null pointer exception when initializing the data
-        authorsData = new ArrayList<>();
+//        data = new ArrayList<>();
 
 
         /// Assign the Views
@@ -88,21 +93,34 @@ public class HomeFragment extends Fragment {
 
         authorsFoundTextView = getView().findViewById(R.id.authors_found_text_view);
 
-        authorsFoundRecyclerView = getView().findViewById(R.id.authors_found_recycler_view);
+        recyclerView = getView().findViewById(R.id.authors_found_recycler_view);
+
+
+
+
+
+
+        /// Setup the ViewModel
+        viewModel = ViewModelProviders.of(this).get(AuthorViewModel.class);
+
+
+        // Get the data from the Viewmodel, which is an ArrayList of Authors
+        data = viewModel.getPlaceholderData();
+
 
         /// Setup the RecyclerView and Adapter
 
-        authorsFoundRecyclerViewAdapter = new FoundAuthorsRecyclerViewAdapter(authorsData, getContext());
+        adapter = new FoundAuthorsRecyclerViewAdapter(getContext(), data);
 
-        authorsFoundRecyclerView.setAdapter(authorsFoundRecyclerViewAdapter);
+        recyclerView.setAdapter(adapter);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
 
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
 
-        authorsFoundRecyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setLayoutManager(linearLayoutManager);
 
-        intializeData();
+
 
         searchMaterialButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,7 +138,7 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getContext(), "Search for Author's Works!", Toast.LENGTH_SHORT).show();
 
 
-
+                resetData();
 
             }
         });
@@ -128,32 +146,31 @@ public class HomeFragment extends Fragment {
 
     }
 
-    private void intializeData() {
+    public void resetData() {
 
-        // TODO: REMOVE THIS
-        for(int i = 0; i < 5; i++) {
 
-//            Integer authorNum = i;
-//
-//            String authorNumber = authorNum.toString();
+        // Clear the old data
+        data.clear();
 
-            Author currentAuthor = new Author("Author", "#" + i);
+        // Get the fetchedData
+        ArrayList<Author> fetchedData = viewModel.fetchData();
 
-            authorsData.add(currentAuthor);
+        // Add the Fetched data to the now empty ArrayList
+        data.addAll(fetchedData);
 
-            /**
-             *
-             * Logging/Debugging: Make sure the Author was added to the list
-             *
-             */
 
-            String currentFirstName = currentAuthor.getAuthorFirst();
 
-            String currentLastName = currentAuthor.getAuthorLast();
+        // Notify the RecyclerView of the updated data
+        adapter.notifyDataSetChanged();
 
-            Log.d(LOG_TAG, "Added Author: " + currentFirstName + " " + currentLastName);
+        for(Author author: data) {
+
+            Log.d(LOG_TAG, "Author: " + author.getAuthorFirst() + " " + author.getAuthorLast());
 
         }
 
+
     }
+
+
 }

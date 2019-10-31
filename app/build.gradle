@@ -35,10 +35,26 @@ dependencies {
     // Material Components
     implementation 'com.google.android.material:material:1.2.0-alpha01'
 
+    /// Architecture Components
+
     // Navigation Component
     def nav_version = "2.1.0"
 
     implementation "androidx.navigation:navigation-fragment:$nav_version"
     implementation "androidx.navigation:navigation-ui:$nav_version"
+
+    // LiveData and ViewModel
+    def lifecycle_version = "2.1.0"
+
+    // ViewModel and LiveData
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+
+    // Room components
+    def room_version = "2.2.1"
+
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    // For Kotlin use kapt instead of annotationProcessor
+    testImplementation "androidx.room:room-testing:$room_version"
 
 }
