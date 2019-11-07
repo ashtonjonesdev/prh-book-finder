@@ -112,9 +112,9 @@ public class AuthorDetailsFragment extends Fragment {
              *
              */
 
-            authorDetailsAuthorTextView.setText(currentAuthor.getAuthorFirst() + " " + currentAuthor.getAuthorLast());
+            authorDetailsAuthorTextView.setText(currentAuthor.getAuthorfirst() + " " + currentAuthor.getAuthorlast());
 
-            authorDetailsAuthorSpotlightTextView.setText(currentAuthor.getAuthorSpotlight());
+            authorDetailsAuthorSpotlightTextView.setText(currentAuthor.getSpotlight());
 
 
 

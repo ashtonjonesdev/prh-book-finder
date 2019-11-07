@@ -9,77 +9,84 @@ import java.util.ArrayList;
  */
 public class Author {
 
-    private String authorFirst;
+    private String authorfirst;
 
-    private String authorLast;
+    private String authorlast;
 
-    private String authorSpotlight;
+    private String spotlight;
 
-    private ArrayList<String> authorBooks;
+    private ArrayList<String> works;
 
     /**
      *
      * Constructor that will be used in the FoundAuthors RecyclerView
      *
-     * @param authorFirst
-     * @param authorLast
+     * @param authorfirst
+     * @param authorlast
      */
-    public Author(String authorFirst, String authorLast) {
-        this.authorFirst = authorFirst;
-        this.authorLast = authorLast;
+    public Author(String authorfirst, String authorlast) {
+        this.authorfirst = authorfirst;
+        this.authorlast = authorlast;
     }
 
     /**
      *
      * Constructors that will be used in the AuthorsDetails RecyclerView
      *
-     * @param authorFirst
-     * @param authorLast
-     * @param authorSpotlight
+     * @param authorfirst
+     * @param authorlast
+     * @param spotlight
      */
 
-    public Author(String authorFirst, String authorLast, String authorSpotlight) {
-        this.authorFirst = authorFirst;
-        this.authorLast = authorLast;
-        this.authorSpotlight = authorSpotlight;
+    public Author(String authorfirst, String authorlast, String spotlight) {
+        this.authorfirst = authorfirst;
+        this.authorlast = authorlast;
+        this.spotlight = spotlight;
     }
 
-    public Author(String authorFirst, String authorLast, String authorSpotlight, ArrayList<String> authorBooks) {
-        this.authorFirst = authorFirst;
-        this.authorLast = authorLast;
-        this.authorSpotlight = authorSpotlight;
-        this.authorBooks = authorBooks;
+    public Author(String authorfirst, String authorlast, String spotlight, ArrayList<String> works) {
+        this.authorfirst = authorfirst;
+        this.authorlast = authorlast;
+        this.spotlight = spotlight;
+        this.works = works;
     }
 
-    public String getAuthorFirst() {
-        return authorFirst;
+    public Author() {
     }
 
-    public void setAuthorFirst(String authorFirst) {
-        this.authorFirst = authorFirst;
+    public Author(String authorfirst) {
+        this.authorfirst = authorfirst;
     }
 
-    public String getAuthorLast() {
-        return authorLast;
+    public String getAuthorfirst() {
+        return authorfirst;
     }
 
-    public void setAuthorLast(String authorLast) {
-        this.authorLast = authorLast;
+    public void setAuthorfirst(String authorfirst) {
+        this.authorfirst = authorfirst;
     }
 
-    public String getAuthorSpotlight() {
-        return authorSpotlight;
+    public String getAuthorlast() {
+        return authorlast;
     }
 
-    public void setAuthorSpotlight(String authorSpotlight) {
-        this.authorSpotlight = authorSpotlight;
+    public void setAuthorlast(String authorlast) {
+        this.authorlast = authorlast;
     }
 
-    public ArrayList<String> getAuthorBooks() {
-        return authorBooks;
+    public String getSpotlight() {
+        return spotlight;
     }
 
-    public void setAuthorBooks(ArrayList<String> authorBooks) {
-        this.authorBooks = authorBooks;
+    public void setSpotlight(String spotlight) {
+        this.spotlight = spotlight;
+    }
+
+    public ArrayList<String> getWorks() {
+        return works;
+    }
+
+    public void setWorks(ArrayList<String> works) {
+        this.works = works;
     }
 }

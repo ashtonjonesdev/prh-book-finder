@@ -1,7 +1,6 @@
 package com.paulconsulting.pcgandroidinterview.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +8,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.paulconsulting.pcgandroidinterview.R;
@@ -18,9 +15,7 @@ import com.paulconsulting.pcgandroidinterview.data.Author;
 import com.paulconsulting.pcgandroidinterview.data.AuthorViewModel;
 import com.paulconsulting.pcgandroidinterview.fragments.HomeFragment;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 public class FoundAuthorsRecyclerViewAdapter extends RecyclerView.Adapter<FoundAuthorsRecyclerViewAdapter.ViewHolder> {
 
@@ -74,6 +69,8 @@ public class FoundAuthorsRecyclerViewAdapter extends RecyclerView.Adapter<FoundA
 
     }
 
+
+
     /**
      *
      * Called when the data changes to update the data in the Adapter
@@ -82,14 +79,14 @@ public class FoundAuthorsRecyclerViewAdapter extends RecyclerView.Adapter<FoundA
      *
      */
 
-//    public void setData(List<Author> data) {
-//
-//        this.data = data;
-//
-//        notifyDataSetChanged();
-//
-//
-//    }
+    public void setData(ArrayList<Author> data) {
+
+        this.data = data;
+
+        notifyDataSetChanged();
+
+
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -124,7 +121,7 @@ public class FoundAuthorsRecyclerViewAdapter extends RecyclerView.Adapter<FoundA
         public void bindTo(Author currentAuthor) {
 
             // TODO: FIX THIS TO USE THE CURRENT AUTHOR TO GET THE RIGHT DATA FROM THE API
-            authorFullNameTextView.setText(currentAuthor.getAuthorFirst() + currentAuthor.getAuthorLast());
+            authorFullNameTextView.setText(currentAuthor.getAuthorfirst() + currentAuthor.getAuthorlast());
 
 
 

@@ -6,9 +6,14 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.work.Data;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkInfo;
+import androidx.work.WorkManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +27,8 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
 import com.paulconsulting.pcgandroidinterview.R;
 import com.paulconsulting.pcgandroidinterview.adapters.FoundAuthorsRecyclerViewAdapter;
+import com.paulconsulting.pcgandroidinterview.adapters.NetworkUtils;
+import com.paulconsulting.pcgandroidinterview.background.GetJSONDataWorker;
 import com.paulconsulting.pcgandroidinterview.data.Author;
 import com.paulconsulting.pcgandroidinterview.data.AuthorViewModel;
 
@@ -33,14 +40,29 @@ import java.util.ArrayList;
  */
 public class HomeFragment extends Fragment {
 
+    /// Tags
     public static final String LOG_TAG = HomeFragment.class.getSimpleName();
+
+    private static final String AUTHORS_FOUND_JSON_WORKER_TAG = "authorsFoundJsonWork";
+
+    /// Keys
+    public static final String QUERY_PARAM_FIRST_NAME_KEY = "firstName";
+
+    public static final String QUERY_PARAM_LAST_NAME_KEY = "lastName";
 
     /// References
 
     /// TextViews
     private MaterialTextView authorTextView;
-    private TextInputLayout authorTextInputLayout;
-    private TextInputEditText authorTextInputEditText;
+
+    // First Edit Text field for author first name
+    private TextInputLayout authorFirstNameTextInputLayout;
+    private TextInputEditText authorFirstNameTextInputEditText;
+
+    // Second edit text field for author last name
+    private TextInputLayout authorLastNameTextInputLayout;
+    private TextInputEditText authorLastNameTextInputEditText;
+
 
     private MaterialTextView authorsFoundTextView;
 
@@ -85,9 +107,16 @@ public class HomeFragment extends Fragment {
 
         authorTextView = getView().findViewById(R.id.author_text_view);
 
-        authorTextInputLayout = getView().findViewById(R.id.author_text_input_layout);
 
-        authorTextInputEditText = getView().findViewById(R.id.author_text_input_edit_text);
+        authorFirstNameTextInputLayout = getView().findViewById(R.id.author_first_name_text_input_layout);
+
+        authorFirstNameTextInputEditText = getView().findViewById(R.id.author_first_name_text_input_edit_text);
+
+
+        authorLastNameTextInputLayout = getView().findViewById(R.id.author_last_name_text_input_layout);
+
+        authorLastNameTextInputEditText = getView().findViewById(R.id.author_last_name_text_input_edit_text);
+
 
         searchMaterialButton = getView().findViewById(R.id.search_material_button);
 
@@ -126,19 +155,115 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+                // Get the first name entered
+
+                String queryFirstName = authorFirstNameTextInputEditText.getText().toString();
+
+                // Get the last name entered
+
+                String queryLastName = authorLastNameTextInputEditText.getText().toString();
+
+
+
+
+
+
+
+                /**
+                 *
+                 * Get the text entered in the edit text views
+                 *
+                 */
+
+                if(queryFirstName.length() > 0 && queryLastName.length() > 0) {
+
+
+
+                    Log.d(LOG_TAG, "First Name Entered: " + queryFirstName);
+
+
+
+                    Log.d(LOG_TAG, "Last name entered: " + queryLastName);
+
+
+
+
+
+
+                }
+
+                else {
+
+                    Toast.makeText(getContext(), "Please enter a First and Last Name", Toast.LENGTH_SHORT).show();
+
+                    return;
+
+                }
+
+
+
+
                 /**
                  *
                  * Set the Authors Found Text View to visible
                  *
                  */
 
+
+
                 authorsFoundTextView.setVisibility(View.VISIBLE);
 
+//               /// Create a Worker that will find the authors
 
-                Toast.makeText(getContext(), "Search for Author's Works!", Toast.LENGTH_SHORT).show();
+                // Create the Worker and give it parameters
+
+                Data queryParams = new Data.Builder().putString(QUERY_PARAM_FIRST_NAME_KEY, queryFirstName).putString(QUERY_PARAM_LAST_NAME_KEY, queryLastName).build();
 
 
-                resetData();
+                OneTimeWorkRequest foundAuthorsWorkRequest = new OneTimeWorkRequest.Builder(GetJSONDataWorker.class).setInputData(queryParams).addTag(AUTHORS_FOUND_JSON_WORKER_TAG).build();
+
+
+                // Hand of the Worker to WorkManager
+
+                WorkManager.getInstance(getContext()).enqueue(foundAuthorsWorkRequest);
+
+                // Add an observer to the Worker to perform logic when the work is finished
+                WorkManager.getInstance(getContext()).getWorkInfoByIdLiveData(foundAuthorsWorkRequest.getId()).observe(HomeFragment.this, new Observer<WorkInfo>() {
+                    @Override
+                    public void onChanged(WorkInfo workInfo) {
+                        if (workInfo != null && workInfo.getState() == WorkInfo.State.SUCCEEDED) {
+                            Toast.makeText(getContext(), "Work finished!", Toast.LENGTH_SHORT).show();
+
+                            // Get the JSON String after the work has finished
+                            String JSON = GetJSONDataWorker.getJsonResponse();
+
+                            Log.d(LOG_TAG, "JSON received from Worker: " + JSON);
+
+                            // Use that JSON String to pass it to the parseJSON method in NetworkUtils
+                            // Will return an ArrayList of Authors
+
+                            ArrayList<Author> foundAuthors = NetworkUtils.parseJson(JSON);
+
+                            Log.d(LOG_TAG, "Found Authors ArrayList size: " + foundAuthors.size());
+
+                            for(Author author: foundAuthors) {
+
+                                Log.d(LOG_TAG, "Found Author: " + author.getAuthorfirst() + " " + author.getAuthorlast());
+
+                            }
+
+                            // Update the data in the Adapter
+                            data.clear();
+
+                            data.addAll(foundAuthors);
+
+                            adapter.notifyDataSetChanged();
+
+
+
+                        }
+                    }
+                });
 
             }
         });
@@ -149,28 +274,33 @@ public class HomeFragment extends Fragment {
     public void resetData() {
 
 
-        // Clear the old data
-        data.clear();
+        // Get the fetched data
+        ArrayList<Author> fetchedData = viewModel.getFetchedData();
 
-        // Get the fetchedData
-        ArrayList<Author> fetchedData = viewModel.fetchData();
+        if(fetchedData != null) {
 
-        // Add the Fetched data to the now empty ArrayList
-        data.addAll(fetchedData);
+            Log.d(LOG_TAG, "Fetched data: " + fetchedData);
+
+            data.clear();
+
+            data = fetchedData;
 
 
+            // Add the fetched data to the data for the RecyclerView
+            data.addAll(fetchedData);
 
-        // Notify the RecyclerView of the updated data
-        adapter.notifyDataSetChanged();
+            // Notify the adapter to be updated with new data
+            adapter.notifyDataSetChanged();
 
-        for(Author author: data) {
+        }
 
-            Log.d(LOG_TAG, "Author: " + author.getAuthorFirst() + " " + author.getAuthorLast());
+        else {
+
+            Log.d(LOG_TAG, "Fetched Data is null!");
 
         }
 
 
     }
-
 
 }

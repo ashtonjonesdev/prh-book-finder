@@ -16,13 +16,13 @@
         android:textSize="30sp" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/author_text_input_layout"
+        android:id="@+id/author_first_name_text_input_layout"
         android:layout_width="match_parent"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/author_text_view"
-        android:hint="Author"
+        android:hint="First Name"
         android:layout_centerHorizontal="true"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:boxStrokeColor="@color/colorPrimary100"
@@ -31,7 +31,29 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/author_text_input_edit_text"
+            android:id="@+id/author_first_name_text_input_edit_text"
+            android:drawableStart="@drawable/ic_edit_black_24dp"/>
+
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/author_last_name_text_input_layout"
+        android:layout_width="match_parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/author_first_name_text_input_layout"
+        android:hint="Last Name"
+        android:layout_centerHorizontal="true"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxStrokeColor="@color/colorPrimary100"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/author_last_name_text_input_edit_text"
             android:drawableStart="@drawable/ic_edit_black_24dp"/>
 
 
@@ -41,10 +63,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Go"
-        android:layout_below="@id/author_text_input_layout"
+        android:layout_below="@id/author_last_name_text_input_layout"
         android:layout_marginTop="16dp"
         android:layout_centerHorizontal="true"
-        android:id="@+id/search_material_button"/>
+        android:id="@+id/search_material_button"
+        android:onClick="search"/>
 
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="wrap_content"

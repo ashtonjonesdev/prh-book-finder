@@ -57,4 +57,10 @@ dependencies {
     // For Kotlin use kapt instead of annotationProcessor
     testImplementation "androidx.room:room-testing:$room_version"
 
+    // WorkManager components
+
+    def work_version = "2.2.0"
+
+    // (Java only)
+    implementation "androidx.work:work-runtime:$work_version"
 }

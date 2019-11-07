@@ -73,7 +73,7 @@ public class AuthorDetailsRecyclerViewAdapter extends RecyclerView.Adapter<Autho
 
 
             // TODO: FIX THIS TO USE THE CURRENT AUTHOR TO GET THE RIGHT DATA FROM THE API
-//            authorBookTextViewItem.setText(currentAuthor.getAuthorBooks().toString());
+//            authorBookTextViewItem.setText(currentAuthor.getWorks().toString());
 
             Log.d(LOG_TAG, "Current books are " + authorBooksList);
 

@@ -1,5 +1,8 @@
 package com.paulconsulting.pcgandroidinterview.data;
 
+import android.util.Log;
+
+
 import java.util.ArrayList;
 
 /**
@@ -10,8 +13,20 @@ import java.util.ArrayList;
 
 public class Repository {
 
+    private static final String LOG_TAG = Repository.class.getSimpleName();
+
     // PlaceholderData
     private ArrayList<Author> placeHolderData;
+
+    // FetchedData
+    private ArrayList<Author> fetchedData;
+
+    //
+    private ArrayList<Author> initialAuthorList;
+
+    public void setFetchedData(ArrayList<Author> fetchedData) {
+        this.fetchedData = fetchedData;
+    }
 
     public ArrayList<Author> getPlaceHolderData() {
 
@@ -22,6 +37,8 @@ public class Repository {
     public Repository() {
 
         placeHolderData = placeHolderData();
+
+        fetchedData = getFetchedData();
 
     }
 
@@ -52,41 +69,30 @@ public class Repository {
         return placeHolderData;
 
 
-
-
     }
 
-    public ArrayList<Author> fetchData() {
-
-        ArrayList<Author> fetchedData;
-
-        fetchedData = new ArrayList<>();
-
-
-        // TODO: REMOVE PLACEHOLER
-        for (int i = 0; i < 5; i++) {
-
-            ArrayList<String> currentBooks = new ArrayList<>();
-
-            currentBooks.add("Book fetched " + i);
-
-            currentBooks.add("Book fetched " + i+1);
-
-            Author currentAuthor = new Author("Author fetched ", "#" + i, "This is Author fetched #" + i + " spotlight", currentBooks);
-
-            fetchedData.add(currentAuthor);
-
-
-        }
-
-
-
-        // TODO: FETCH DATA FROM THE API
-
-
+    public ArrayList<Author> fetchedData() {
 
 
         return fetchedData;
 
+    }
+
+    public void initializeFetchedData() {
+
+        ArrayList<Author> initialAuthorList = new ArrayList<Author>();
+
+        initialAuthorList.add(new Author("Hello", "Goodbye"));
+
+        Log.d(LOG_TAG, "Fetched Data: " + fetchedData.get(0).getAuthorfirst() + " " + fetchedData.get(0).getAuthorlast());
+
+        fetchedData = new ArrayList<Author>();
+
+        fetchedData = initialAuthorList;
+
+    }
+
+    public ArrayList<Author> getFetchedData() {
+        return fetchedData;
     }
 }
