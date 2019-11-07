@@ -121,7 +121,7 @@ public class FoundAuthorsRecyclerViewAdapter extends RecyclerView.Adapter<FoundA
         public void bindTo(Author currentAuthor) {
 
             // TODO: FIX THIS TO USE THE CURRENT AUTHOR TO GET THE RIGHT DATA FROM THE API
-            authorFullNameTextView.setText(currentAuthor.getAuthorfirst() + currentAuthor.getAuthorlast());
+            authorFullNameTextView.setText(currentAuthor.getAuthorfirst() + " " + currentAuthor.getAuthorlast());
 
 
 

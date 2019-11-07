@@ -228,6 +228,7 @@ public class HomeFragment extends Fragment {
                 WorkManager.getInstance(getContext()).enqueue(foundAuthorsWorkRequest);
 
                 // Add an observer to the Worker to perform logic when the work is finished
+                // TODO: Figure out exactly what this is doing and how LiveData is involved
                 WorkManager.getInstance(getContext()).getWorkInfoByIdLiveData(foundAuthorsWorkRequest.getId()).observe(HomeFragment.this, new Observer<WorkInfo>() {
                     @Override
                     public void onChanged(WorkInfo workInfo) {
@@ -235,14 +236,14 @@ public class HomeFragment extends Fragment {
                             Toast.makeText(getContext(), "Work finished!", Toast.LENGTH_SHORT).show();
 
                             // Get the JSON String after the work has finished
-                            String JSON = GetJSONDataWorker.getJsonResponse();
+                            String authorsJSONResponse = GetJSONDataWorker.getAuthorsJSONResponse();
 
-                            Log.d(LOG_TAG, "JSON received from Worker: " + JSON);
+                            Log.d(LOG_TAG, "JSON author response received from Worker: " + authorsJSONResponse);
 
                             // Use that JSON String to pass it to the parseJSON method in NetworkUtils
                             // Will return an ArrayList of Authors
 
-                            ArrayList<Author> foundAuthors = NetworkUtils.parseJson(JSON);
+                            ArrayList<Author> foundAuthors = NetworkUtils.parseAuthorsJSON(authorsJSONResponse);
 
                             Log.d(LOG_TAG, "Found Authors ArrayList size: " + foundAuthors.size());
 
@@ -251,6 +252,8 @@ public class HomeFragment extends Fragment {
                                 Log.d(LOG_TAG, "Found Author: " + author.getAuthorfirst() + " " + author.getAuthorlast());
 
                             }
+
+                            // TODO: Double check on this logic
 
                             // Update the data in the Adapter
                             data.clear();

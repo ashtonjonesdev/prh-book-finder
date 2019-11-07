@@ -73,7 +73,7 @@
         android:layout_width="wrap_content"
         android:id="@+id/authors_found_text_view"
         android:layout_height="wrap_content"
-        android:text="Authors Found:"
+        android:text="Author Found:"
         android:layout_below="@id/search_material_button"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
