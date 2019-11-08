@@ -28,7 +28,8 @@ import com.google.android.material.textview.MaterialTextView;
 import com.paulconsulting.pcgandroidinterview.R;
 import com.paulconsulting.pcgandroidinterview.adapters.FoundAuthorsRecyclerViewAdapter;
 import com.paulconsulting.pcgandroidinterview.adapters.NetworkUtils;
-import com.paulconsulting.pcgandroidinterview.background.GetJSONDataWorker;
+import com.paulconsulting.pcgandroidinterview.background.GetAuthorsJSONDataWorker;
+import com.paulconsulting.pcgandroidinterview.background.GetWorksJSONDataWorker;
 import com.paulconsulting.pcgandroidinterview.data.Author;
 import com.paulconsulting.pcgandroidinterview.data.AuthorViewModel;
 
@@ -45,10 +46,14 @@ public class HomeFragment extends Fragment {
 
     private static final String AUTHORS_FOUND_JSON_WORKER_TAG = "authorsFoundJsonWork";
 
+    private static final String WORKS_FOUND_JSON_WORKER_TAG = "worksFoundJsonWork";
+
     /// Keys
     public static final String QUERY_PARAM_FIRST_NAME_KEY = "firstName";
 
     public static final String QUERY_PARAM_LAST_NAME_KEY = "lastName";
+
+    public static final String QUERY_PARAM_SEARCH_KEY = "search";
 
     /// References
 
@@ -213,17 +218,20 @@ public class HomeFragment extends Fragment {
 
                 authorsFoundTextView.setVisibility(View.VISIBLE);
 
-//               /// Create a Worker that will find the authors
 
-                // Create the Worker and give it parameters
+                //// Create a Worker that will find the authors
+
+                /// Create the Worker and give it parameters
+
+                // Create a Data object that will hold the first name and last name entered by the user to be passed into the Worker to use to get the JSON String
 
                 Data queryParams = new Data.Builder().putString(QUERY_PARAM_FIRST_NAME_KEY, queryFirstName).putString(QUERY_PARAM_LAST_NAME_KEY, queryLastName).build();
 
+                // Create the authors Worker, setting the input data
 
-                OneTimeWorkRequest foundAuthorsWorkRequest = new OneTimeWorkRequest.Builder(GetJSONDataWorker.class).setInputData(queryParams).addTag(AUTHORS_FOUND_JSON_WORKER_TAG).build();
+                OneTimeWorkRequest foundAuthorsWorkRequest = new OneTimeWorkRequest.Builder(GetAuthorsJSONDataWorker.class).setInputData(queryParams).addTag(AUTHORS_FOUND_JSON_WORKER_TAG).build();
 
 
-                // Hand of the Worker to WorkManager
 
                 WorkManager.getInstance(getContext()).enqueue(foundAuthorsWorkRequest);
 
@@ -236,7 +244,7 @@ public class HomeFragment extends Fragment {
                             Toast.makeText(getContext(), "Work finished!", Toast.LENGTH_SHORT).show();
 
                             // Get the JSON String after the work has finished
-                            String authorsJSONResponse = GetJSONDataWorker.getAuthorsJSONResponse();
+                            String authorsJSONResponse = GetAuthorsJSONDataWorker.getAuthorsJSONResponse();
 
                             Log.d(LOG_TAG, "JSON author response received from Worker: " + authorsJSONResponse);
 
@@ -261,6 +269,65 @@ public class HomeFragment extends Fragment {
                             data.addAll(foundAuthors);
 
                             adapter.notifyDataSetChanged();
+
+                            Log.d(LOG_TAG, "Current Author in ArrayList: " + data.get(0).getAuthorfirst() + " " + data.get(0).getAuthorlast());
+
+
+                            //// Create a Worker that will find works
+
+                            /// Create a Data object that will hold the Author's last name of the current Author in the ArrayList to be used as a search term
+
+                            // Get the Author's last name of the Author in the current ArrayList
+                            String currentAuthorLast = data.get(0).getAuthorlast();
+
+                            Log.d(LOG_TAG, "Current Author Last Name to be Used as Search Param: " + currentAuthorLast);
+//
+                            // Add the last name to the Data
+                            Data worksQueryParam = new Data.Builder().putString(QUERY_PARAM_SEARCH_KEY, currentAuthorLast).build();
+
+
+                            /// Create the Worker
+
+                            OneTimeWorkRequest findWorksWorkRequest = new OneTimeWorkRequest.Builder(GetWorksJSONDataWorker.class).setInputData(worksQueryParam).addTag(WORKS_FOUND_JSON_WORKER_TAG).build();
+
+                            // Hand of the Worker to WorkManager
+                            WorkManager.getInstance(getContext()).enqueue(findWorksWorkRequest);
+
+                            // Add an Observer to perform logic after work is completed
+                            WorkManager.getInstance(getContext()).getWorkInfoByIdLiveData(findWorksWorkRequest.getId()).observe(HomeFragment.this, new Observer<WorkInfo>() {
+                                @Override
+                                public void onChanged(WorkInfo workInfo) {
+
+                                    // Get the JSON String after the work has finished
+                                    String worksJSONResponse = GetWorksJSONDataWorker.getWorksJSONResponse();
+
+                                    Log.d(LOG_TAG, "JSON works response from Worker: " + worksJSONResponse);
+
+                                    // Parse the JSON works response to get the titleweb
+                                    ArrayList<String> foundWorks = NetworkUtils.parseWorksJSON(worksJSONResponse);
+
+                                    Log.d(LOG_TAG, "Found Works ArrayList size: " + foundWorks.size());
+
+                                    for(String work: foundWorks) {
+
+                                        Log.d(LOG_TAG, "Found Work: " + work);
+
+
+                                    }
+
+                                    // Add the works to the foundAuthors ArrayList (to the Author object)
+
+                                    for(Author author: foundAuthors) {
+
+                                        author.setWorks(foundWorks);
+
+                                        Log.d(LOG_TAG, "Author Works Added: " + author.getWorks() + " for author " + author.getAuthorfirst() + " " + author.getAuthorlast());
+
+                                    }
+//
+//
+                                }
+                            });
 
 
 

@@ -25,9 +25,9 @@ import java.util.ArrayList;
  *
  */
 
-public class GetJSONDataWorker extends Worker {
+public class GetAuthorsJSONDataWorker extends Worker {
 
-    private static final String LOG_TAG = GetJSONDataWorker.class.getSimpleName();
+    private static final String LOG_TAG = GetAuthorsJSONDataWorker.class.getSimpleName();
 
     // Create a static variable for the authorsJSONResponse to access it outside of the doWork() method
     // This will be reassigned with each new query to hold the new JSON response
@@ -42,7 +42,7 @@ public class GetJSONDataWorker extends Worker {
         return fetchedData;
     }
 
-    public GetJSONDataWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
+    public GetAuthorsJSONDataWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
 
     }

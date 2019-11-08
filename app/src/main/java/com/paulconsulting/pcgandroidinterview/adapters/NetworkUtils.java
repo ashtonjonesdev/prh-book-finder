@@ -382,14 +382,15 @@ public class NetworkUtils {
 
         try {
 
-            //// Open connection and request String from Google Books API to find the author of a book
+            //// Open connection and request String from PRH API to find the author of a book
 
             /// Build the Uri to use in the request and convert it to a Url to use in the request
 
             // Build the uri using the base url and appending the search query parameters (the start index, max items, and search String (author's last name)
-            // Get all the works found
 
-            Uri builtURI = Uri.parse(WORKS_BASE_URL).buildUpon().appendQueryParameter(START_PARAM, "0").appendQueryParameter(MAX_PARAM, "0").appendQueryParameter(EXPAND_LEVEL_PARAM, "3").appendQueryParameter(SEARCH_PARAM, authorlast).build();
+            // Limit to 5 works
+
+            Uri builtURI = Uri.parse(WORKS_BASE_URL).buildUpon().appendQueryParameter(START_PARAM, "0").appendQueryParameter(MAX_PARAM, "5").appendQueryParameter(EXPAND_LEVEL_PARAM, "1").appendQueryParameter(SEARCH_PARAM, authorlast).build();
 
             Log.d(LOG_TAG, "Works URI: " + builtURI.toString());
 
