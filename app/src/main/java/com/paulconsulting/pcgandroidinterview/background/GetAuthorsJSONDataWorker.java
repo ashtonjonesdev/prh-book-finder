@@ -10,7 +10,6 @@ import androidx.work.WorkerParameters;
 
 import com.paulconsulting.pcgandroidinterview.adapters.NetworkUtils;
 import com.paulconsulting.pcgandroidinterview.data.Author;
-import com.paulconsulting.pcgandroidinterview.data.Repository;
 import com.paulconsulting.pcgandroidinterview.fragments.HomeFragment;
 
 import java.util.ArrayList;
@@ -33,14 +32,6 @@ public class GetAuthorsJSONDataWorker extends Worker {
     // This will be reassigned with each new query to hold the new JSON response
     private static String authorsJSONResponse;
 
-
-    private ArrayList<Author> fetchedData;
-
-    private Repository repository;
-
-    public ArrayList<Author> getFetchedData() {
-        return fetchedData;
-    }
 
     public GetAuthorsJSONDataWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);

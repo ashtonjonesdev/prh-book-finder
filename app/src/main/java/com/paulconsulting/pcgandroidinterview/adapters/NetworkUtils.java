@@ -55,7 +55,7 @@ public class NetworkUtils {
 
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
-        String bookJSONString = null;
+        String authorsJSONString = null;
 
         // Build the URI and issue the query
 
@@ -114,7 +114,7 @@ public class NetworkUtils {
                 }
 
                 // Convert the stringBuilder object to a String
-                bookJSONString = builder.toString();
+                authorsJSONString = builder.toString();
 
 //                Log.d("NetworkUtils", bookJSONString);
 
@@ -139,9 +139,9 @@ public class NetworkUtils {
         }
 
         // Print the JSON response to the Log
-        Log.d(LOG_TAG,"JSON response: " + bookJSONString );
+        Log.d(LOG_TAG,"JSON response: " + authorsJSONString );
 
-        return bookJSONString;
+        return authorsJSONString;
     }
 
     /**
@@ -269,22 +269,45 @@ public class NetworkUtils {
                 Log.d(LOG_TAG, "No JSON Authors Array Found!");
 
                 // Get the author element from the JSON response
-                JSONObject authorObject = jsonObject.getJSONObject("author");
+                JSONObject authorObject = jsonObject.optJSONObject("author");
 
-                // Get the authorFirst from the authorObject
-                String authorFirstString = authorObject.getString("authorfirst");
+                if(authorObject != null) {
 
-                Log.d(LOG_TAG, "Author First Name: " + authorFirstString);
+                    // Get the authorFirst from the authorObject
+                    String authorFirstString = authorObject.getString("authorfirst");
 
-                // Get the authorlast from the authorObject
-                String authorLastString = authorObject.getString("authorlast");
+                    Log.d(LOG_TAG, "Author First Name: " + authorFirstString);
 
-                Log.d(LOG_TAG, "Author Last Name: " + authorLastString);
+                    // Get the authorlast from the authorObject
+                    String authorLastString = authorObject.getString("authorlast");
 
-                // Get the spotlight
-                String authorSpotlightString = authorObject.getString("spotlight");
+                    Log.d(LOG_TAG, "Author Last Name: " + authorLastString);
 
-                Log.d(LOG_TAG, "Author Spotlight: " + authorSpotlightString);
+                    // Get the spotlight
+                    String authorSpotlightString = authorObject.getString("spotlight");
+
+                    Log.d(LOG_TAG, "Author Spotlight: " + authorSpotlightString);
+
+                    if(authorFirstString != null && authorLastString != null && authorSpotlightString != null) {
+
+                        Author author = new Author(authorFirstString, authorLastString, authorSpotlightString);
+
+                        // Add the Author object to the foundAuthors array and return it
+                        foundAuthors.add(author);
+
+                        Log.d(LOG_TAG, "Added Author From Single author element: " + foundAuthors.get(0).getAuthorfirst() + " " + foundAuthors.get(0).getAuthorlast());
+
+                    }
+
+                    else {
+
+                        Log.d(LOG_TAG, "Did not find a valid Author!");
+
+                    }
+
+                }
+
+
 
 
                 // Get the works
@@ -293,12 +316,13 @@ public class NetworkUtils {
 
                 // Create a new Author object with the firstname, lastname, and spotlight
                 // Will add the Works later with a new GET request
-                Author author = new Author(authorFirstString, authorLastString, authorSpotlightString);
 
-                // Add the Author object to the foundAuthors array and return it
-                foundAuthors.add(author);
 
-                Log.d(LOG_TAG, "Added Author From Single author element: " + foundAuthors.get(0).getAuthorfirst() + " " + foundAuthors.get(0).getAuthorlast());
+
+
+
+
+
 
                 // return the ArrayList with the found author
                 return foundAuthors;
@@ -545,6 +569,9 @@ public class NetworkUtils {
 
                 } // for loop
 
+                Log.d(LOG_TAG, "All Works Found: " + foundWorks);
+
+
                 // Returns an ArrayList<String> found usig the works array
                 return foundWorks;
 
@@ -570,6 +597,9 @@ public class NetworkUtils {
 
                     // Add it to the ArrayList<String>
                     foundWorks.add(titleWeb);
+
+                    Log.d(LOG_TAG, "All Works Found: " + foundWorks);
+
 
                     // Return the ArrayList with the single titleweb
                     return foundWorks;

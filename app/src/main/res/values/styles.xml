@@ -51,8 +51,8 @@
         <!--By default, the theme styles the typeface, weight, size, case and letter spacing for the various type scales-->
         <!--Simply change the fontFamily and use the default styles to adhere to Material Typography guidelines-->
 
-        <item name="android:fontFamily">@font/roboto_thin</item>
-        <item name="fontFamily">@font/roboto_thin</item>
+        <item name="android:fontFamily">@font/marcellus</item>
+        <item name="fontFamily">@font/marcellus</item>
 
 
         <!--Shape Theming:-->

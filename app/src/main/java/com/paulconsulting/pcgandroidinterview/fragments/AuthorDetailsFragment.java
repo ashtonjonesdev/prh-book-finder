@@ -6,17 +6,20 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.material.textview.MaterialTextView;
 import com.paulconsulting.pcgandroidinterview.R;
 import com.paulconsulting.pcgandroidinterview.adapters.AuthorDetailsRecyclerViewAdapter;
 import com.paulconsulting.pcgandroidinterview.data.Author;
+import com.paulconsulting.pcgandroidinterview.data.AuthorViewModel;
 
 import java.util.ArrayList;
 
@@ -26,6 +29,8 @@ import java.util.ArrayList;
  */
 public class AuthorDetailsFragment extends Fragment {
 
+    private static final String LOG_TAG = AuthorDetailsFragment.class.getSimpleName();
+
     /// References
 
     /// TextViews
@@ -34,14 +39,16 @@ public class AuthorDetailsFragment extends Fragment {
     private MaterialTextView authorDetailsBooksTextView;
 
     /// RecyclerView
-    private RecyclerView authorDetailsBooksRecyclerView;
-    private AuthorDetailsRecyclerViewAdapter authorDetailsRecyclerViewAdapter;
+    private RecyclerView recyclerView;
+    private AuthorDetailsRecyclerViewAdapter adapter;
 
-    /// Data: List of Authors
-    private ArrayList<Author> authorDetails;
+    // ViewModel instance
+    private AuthorViewModel viewModel;
 
-    // Array of Author Books
-    private ArrayList<String> currentBooks;
+    // Data
+    private ArrayList<Author> data = new ArrayList<>();
+
+
 
 
 
@@ -61,10 +68,7 @@ public class AuthorDetailsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Intialize the ArrayList to an empty list to avoid null pointer exception
-        authorDetails = new ArrayList<>();
 
-        currentBooks = new ArrayList<>();
 
 
 
@@ -76,51 +80,107 @@ public class AuthorDetailsFragment extends Fragment {
 
         authorDetailsBooksTextView = getView().findViewById(R.id.author_details_books_text_view);
 
-        authorDetailsBooksRecyclerView = getView().findViewById(R.id.author_details_books_recycler_view);
+        recyclerView = getView().findViewById(R.id.author_details_books_recycler_view);
+
+
+        // Initialize the ViewModel
+        // Use the Activity context to share the same ViewModel instance amongst multiple Fragments
+        viewModel = ViewModelProviders.of(getActivity()).get(AuthorViewModel.class);
+
+        // Set the data to the current data in the ViewModel
+        data = viewModel.getFetchedData();
+
+
+
 
         /// Setup the RecyclerView and Adapter
 
-        authorDetailsRecyclerViewAdapter = new AuthorDetailsRecyclerViewAdapter(authorDetails, getContext());
+        adapter = new AuthorDetailsRecyclerViewAdapter(data, getContext());
 
-        authorDetailsBooksRecyclerView.setAdapter(authorDetailsRecyclerViewAdapter);
+        recyclerView.setAdapter(adapter);
 
-        authorDetailsBooksRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        
-        initializeData();
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
 
+        linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
 
-
-
+        recyclerView.setLayoutManager(linearLayoutManager);
 
 
 
-    }
-
-    private void initializeData() {
-
-        for(int i = 0; i < 4; i++) {
-
-            currentBooks.add("Book " + i + "Book " + i + 1 );
-
-            Author currentAuthor = new Author("Author", "#" + i, "Author Spotlight #" + i, currentBooks);
-
-            authorDetails.add(currentAuthor);
-
-            /**
-             *
-             * Set the text of the all the Views not in the RecyclerView
-             *
-             */
-
-            authorDetailsAuthorTextView.setText(currentAuthor.getAuthorfirst() + " " + currentAuthor.getAuthorlast());
-
-            authorDetailsAuthorSpotlightTextView.setText(currentAuthor.getSpotlight());
 
 
 
+        // Handle the case if there is not a valid author found
+        if(data.size() == 0) {
+
+            authorDetailsAuthorTextView.setText("No author found");
+
+            Toast.makeText(getContext(), "Could not find an author!", Toast.LENGTH_SHORT).show();
 
 
         }
 
+
+        // Set the data of the TextViews
+        if(data.size() != 0) {
+
+            String authorFullName = data.get(0).getAuthorfirst() + " " + data.get(0).getAuthorlast();
+
+            String authorSpotlight = data.get(0).getSpotlight();
+
+            ArrayList<String> authorWorks = data.get(0).getWorks();
+
+
+            // If there are values for all Author fields, set the text views
+            if (authorFullName != null && authorSpotlight != null && authorWorks.size() > 0) {
+
+                authorDetailsAuthorTextView.setText(authorFullName);
+
+                authorDetailsAuthorSpotlightTextView.setText(authorSpotlight);
+
+//                /// Update the data in the adapter
+//
+//                // Copy of the data for the adapter
+//                ArrayList<Author> foundAuthors = data;
+//
+//                // Update the data in the adapter
+//                data.clear();
+//
+//                data.addAll(foundAuthors);
+//
+//                adapter.notifyDataSetChanged();
+
+
+
+
+
+
+                // Get each work from the authorWorks Array
+
+//                String concatenatedWorks = Arrays.toString(authorWorks.toArray());
+//
+//                Log.d(LOG_TAG, "Author Works: " + concatenatedWorks);
+//
+//                if(concatenatedWorks != null) {
+//
+//                    authorDetailsBooksTextView.setText(concatenatedWorks);
+//
+//                }
+
+
+
+            }
+
+
+        }
+
+
+
+
+
+
+
+
     }
+
 }

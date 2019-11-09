@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.work.Data;
@@ -82,7 +83,7 @@ public class HomeFragment extends Fragment {
     private ArrayList<Author> data = new ArrayList<>();
 
     /// ViewModel
-    public static AuthorViewModel viewModel;
+    public AuthorViewModel viewModel;
 
 
 
@@ -135,11 +136,15 @@ public class HomeFragment extends Fragment {
 
 
         /// Setup the ViewModel
-        viewModel = ViewModelProviders.of(this).get(AuthorViewModel.class);
+
+        // Use the Activity context to share the same ViewModel instance amongst multiple Fragments
+        viewModel = ViewModelProviders.of(getActivity()).get(AuthorViewModel.class);
 
 
         // Get the data from the Viewmodel, which is an ArrayList of Authors
-        data = viewModel.getPlaceholderData();
+        data = viewModel.getFetchedData();
+
+        Log.d(LOG_TAG, "Current ViewModel data: " + data);
 
 
         /// Setup the RecyclerView and Adapter
@@ -218,6 +223,8 @@ public class HomeFragment extends Fragment {
 
                 authorsFoundTextView.setVisibility(View.VISIBLE);
 
+                authorsFoundTextView.setText("Searching...");
+
 
                 //// Create a Worker that will find the authors
 
@@ -241,17 +248,43 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onChanged(WorkInfo workInfo) {
                         if (workInfo != null && workInfo.getState() == WorkInfo.State.SUCCEEDED) {
-                            Toast.makeText(getContext(), "Work finished!", Toast.LENGTH_SHORT).show();
 
                             // Get the JSON String after the work has finished
                             String authorsJSONResponse = GetAuthorsJSONDataWorker.getAuthorsJSONResponse();
+
+
 
                             Log.d(LOG_TAG, "JSON author response received from Worker: " + authorsJSONResponse);
 
                             // Use that JSON String to pass it to the parseJSON method in NetworkUtils
                             // Will return an ArrayList of Authors
 
+
+
                             ArrayList<Author> foundAuthors = NetworkUtils.parseAuthorsJSON(authorsJSONResponse);
+
+                            // Handle the case if there were no valid authors found (the ArrayList of Authors is empty)
+                            if(foundAuthors.size() == 0) {
+
+                                authorsFoundTextView.setText("No Author Found!");
+
+                                Log.d(LOG_TAG, "No valid author found");
+
+                                // Update the data in the adapter to clear the RecyclerView
+                                // Update the data in the Adapter
+                                data.clear();
+
+                                data.addAll(foundAuthors);
+
+                                adapter.notifyDataSetChanged();
+
+                                // Exit the method
+                                return;
+
+                            }
+
+                            // Set the textview to indicate an Author was found
+                            authorsFoundTextView.setText("Found Author: ");
 
                             Log.d(LOG_TAG, "Found Authors ArrayList size: " + foundAuthors.size());
 
@@ -270,20 +303,43 @@ public class HomeFragment extends Fragment {
 
                             adapter.notifyDataSetChanged();
 
-                            Log.d(LOG_TAG, "Current Author in ArrayList: " + data.get(0).getAuthorfirst() + " " + data.get(0).getAuthorlast());
+                            // Update the data in the ViewModel
+                            viewModel.setFetchedData(foundAuthors);
+
+
+//                            // Make sure the data in the ViewModel was updated
+                            Log.d(LOG_TAG, "Current data in Viewmodel: " + data.get(0).getAuthorfirst() + " " + data.get(0).getAuthorlast());
+
+                            Log.d(LOG_TAG, "Current Author in ArrayList: " + data.get(0).getAuthorfirst() + " " + data.get(0).getAuthorlast() + " " + "Spotlight: " + data.get(0).getSpotlight() );
 
 
                             //// Create a Worker that will find works
 
-                            /// Create a Data object that will hold the Author's last name of the current Author in the ArrayList to be used as a search term
+                            /// Create a Data object that will hold the Author's first name and last name of the current Author in the ArrayList to be used as a search term
+
+                            // Get the Author's first name of the Author in the current ArrayList
+                            String currentAuthorFirst = data.get(0).getAuthorfirst();
+
+                            Log.d(LOG_TAG, "Current Author First Name to be Used as Search Param: " + currentAuthorFirst);
 
                             // Get the Author's last name of the Author in the current ArrayList
                             String currentAuthorLast = data.get(0).getAuthorlast();
 
                             Log.d(LOG_TAG, "Current Author Last Name to be Used as Search Param: " + currentAuthorLast);
+
+                            // Concatenate the names to create a full name with a space
+                            String currentAuthorFull = currentAuthorFirst + " " + currentAuthorLast;
+
+                            Log.d(LOG_TAG, "Current Author Full Name to be Used as Search Param: " + currentAuthorFirst + " " + currentAuthorLast);
+
+
+
+
+
+
 //
                             // Add the last name to the Data
-                            Data worksQueryParam = new Data.Builder().putString(QUERY_PARAM_SEARCH_KEY, currentAuthorLast).build();
+                            Data worksQueryParam = new Data.Builder().putString(QUERY_PARAM_SEARCH_KEY, currentAuthorFull).build();
 
 
                             /// Create the Worker
@@ -298,44 +354,62 @@ public class HomeFragment extends Fragment {
                                 @Override
                                 public void onChanged(WorkInfo workInfo) {
 
-                                    // Get the JSON String after the work has finished
-                                    String worksJSONResponse = GetWorksJSONDataWorker.getWorksJSONResponse();
+                                    if(workInfo != null && workInfo.getState() == WorkInfo.State.SUCCEEDED) {
 
-                                    Log.d(LOG_TAG, "JSON works response from Worker: " + worksJSONResponse);
+                                        // Get the JSON String after the work has finished
+                                        String worksJSONResponse = GetWorksJSONDataWorker.getWorksJSONResponse();
 
-                                    // Parse the JSON works response to get the titleweb
-                                    ArrayList<String> foundWorks = NetworkUtils.parseWorksJSON(worksJSONResponse);
+                                        Log.d(LOG_TAG, "JSON works response from Worker: " + worksJSONResponse);
 
-                                    Log.d(LOG_TAG, "Found Works ArrayList size: " + foundWorks.size());
+                                        // Parse the JSON works response to get the titleweb
+                                        ArrayList<String> foundWorks = NetworkUtils.parseWorksJSON(worksJSONResponse);
 
-                                    for(String work: foundWorks) {
+                                        Log.d(LOG_TAG, "Found Works ArrayList size: " + foundWorks.size());
 
-                                        Log.d(LOG_TAG, "Found Work: " + work);
+                                        for (String work : foundWorks) {
+
+                                            Log.d(LOG_TAG, "Found Work: " + work);
 
 
-                                    }
+                                        }
 
-                                    // Add the works to the foundAuthors ArrayList (to the Author object)
+                                        // Add the works to the foundAuthors ArrayList (to the Author object)
 
-                                    for(Author author: foundAuthors) {
+                                        for (Author author : foundAuthors) {
 
-                                        author.setWorks(foundWorks);
+                                            author.setWorks(foundWorks);
 
-                                        Log.d(LOG_TAG, "Author Works Added: " + author.getWorks() + " for author " + author.getAuthorfirst() + " " + author.getAuthorlast());
+                                            Log.d(LOG_TAG, "Author Works Added: " + author.getWorks() + " for author " + author.getAuthorfirst() + " " + author.getAuthorlast());
 
-                                    }
+                                        }
+
+                                        // Update the data in the Adapter and the ViewModel, so the Author objects include the work
+                                        data.clear();
+
+                                        data.addAll(foundAuthors);
+
+                                        adapter.notifyDataSetChanged();
+
+                                        viewModel.setFetchedData(foundAuthors);
+
+                                        // Make sure all data is now in the ViewModel data
+                                        Log.d(LOG_TAG, "ViewModel data: " + data.get(0).getAuthorfirst() + " " + data.get(0).getAuthorlast() + " " + "Spotlight: " + data.get(0).getSpotlight() + " " + "Works: " + data.get(0).getWorks());
+
+
+
+                                    } // if workInfo != null && workInfo.getState() == WorkInfo.State.SUCCEEDED (works Worker)
 //
 //
-                                }
+                                } //onChanged works Worker
                             });
 
 
 
-                        }
-                    }
+                        } // if workInfo != null && workInfo.getState() == WorkInfo.State.SUCCEEDED (authors Worker)
+                    } // onChanged authors Worker
                 });
 
-            }
+            } // onClick
         });
 
 

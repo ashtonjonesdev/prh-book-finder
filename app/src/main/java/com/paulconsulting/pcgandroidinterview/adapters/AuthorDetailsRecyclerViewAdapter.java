@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,18 +17,18 @@ import java.util.ArrayList;
 
 public class AuthorDetailsRecyclerViewAdapter extends RecyclerView.Adapter<AuthorDetailsRecyclerViewAdapter.ViewHolder> {
 
-    private final String LOG_TAG = AuthorDetailsRecyclerViewAdapter.class.getSimpleName();
+    private static final String LOG_TAG = AuthorDetailsRecyclerViewAdapter.class.getSimpleName();
 
     /// References
 
     // Represents the data in the Fragment
-    private ArrayList<Author> authorBooksList;
+    private ArrayList<Author> data;
 
     // Used in the constructor, which will subsequently be used in the onCreateViewHolder method to inflate the layout item xml file
     private Context context;
 
-    public AuthorDetailsRecyclerViewAdapter(ArrayList<Author> authorBooksList, Context context) {
-        this.authorBooksList = authorBooksList;
+    public AuthorDetailsRecyclerViewAdapter(ArrayList<Author> data, Context context) {
+        this.data = data;
         this.context = context;
     }
 
@@ -37,14 +36,14 @@ public class AuthorDetailsRecyclerViewAdapter extends RecyclerView.Adapter<Autho
     @Override
     public AuthorDetailsRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.recycler_view_item_authors_list, parent, false));
+        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.recycler_view_item_authors_details_list, parent, false));
 
     }
 
     @Override
     public void onBindViewHolder(@NonNull AuthorDetailsRecyclerViewAdapter.ViewHolder holder, int position) {
 
-        Author currentAuthor = authorBooksList.get(position);
+        Author currentAuthor = data.get(position);
 
         holder.bindTo(currentAuthor);
 
@@ -53,7 +52,7 @@ public class AuthorDetailsRecyclerViewAdapter extends RecyclerView.Adapter<Autho
     @Override
     public int getItemCount() {
 
-        return authorBooksList.size();
+        return data.size();
 
     }
 
@@ -72,10 +71,12 @@ public class AuthorDetailsRecyclerViewAdapter extends RecyclerView.Adapter<Autho
         public void bindTo(Author currentAuthor) {
 
 
-            // TODO: FIX THIS TO USE THE CURRENT AUTHOR TO GET THE RIGHT DATA FROM THE API
-//            authorBookTextViewItem.setText(currentAuthor.getWorks().toString());
+            Log.d(LOG_TAG, "Current Author Works: " + currentAuthor.getWorks());
 
-            Log.d(LOG_TAG, "Current books are " + authorBooksList);
+
+            authorBookTextViewItem.setText(currentAuthor.getWorks().toString());
+
+
 
         }
 

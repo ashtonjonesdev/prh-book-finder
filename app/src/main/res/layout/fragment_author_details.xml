@@ -16,20 +16,23 @@
         android:hint="Author"/>
 
     <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/author_details_author_spotlight_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16dp"
-        android:id="@+id/author_details_author_spotlight_text_view"
-        android:hint="John Grisham is the author of thirty novels, one work of nonfiction, a collection of stories, and six novels for young readers."
         android:layout_below="@id/author_details_author_text_view"
-        android:layout_margin="16dp"/>
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:hint="John Grisham is the author of thirty novels, one work of nonfiction, a collection of stories, and six novels for young readers."
+        android:textSize="16dp" />
 
     <View
         android:id="@+id/author_info_divider"
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_below="@id/author_details_author_spotlight_text_view"
-        android:background="@color/colorMediumEmphasisBlack" />
+        android:background="@color/colorPrimary400" />
 
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="wrap_content"
@@ -38,15 +41,17 @@
         android:id="@+id/author_details_books_text_view"
         android:layout_below="@id/author_info_divider"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:layout_centerHorizontal="true"
         android:textSize="24sp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_below="@id/author_details_books_text_view"
+        android:layout_margin="16dp"
         android:id="@+id/author_details_books_recycler_view"/>
 
 
