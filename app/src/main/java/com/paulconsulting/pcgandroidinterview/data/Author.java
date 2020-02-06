@@ -1,11 +1,11 @@
 package com.paulconsulting.pcgandroidinterview.data;
 
+import android.text.Html;
+
 import java.util.ArrayList;
 
 /**
- *
  * A data class for an Author
- *
  */
 public class Author {
 
@@ -18,7 +18,6 @@ public class Author {
     private ArrayList<String> works;
 
     /**
-     *
      * Constructor that will be used in the FoundAuthors RecyclerView
      *
      * @param authorfirst
@@ -30,7 +29,6 @@ public class Author {
     }
 
     /**
-     *
      * Constructors that will be used in the AuthorsDetails RecyclerView
      *
      * @param authorfirst
@@ -75,7 +73,7 @@ public class Author {
     }
 
     public String getSpotlight() {
-        return spotlight;
+        return Html.fromHtml(spotlight).toString();
     }
 
     public void setSpotlight(String spotlight) {

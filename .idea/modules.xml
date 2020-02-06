@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/pcg_android_interview.iml" filepath="$PROJECT_DIR$/pcg_android_interview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/prh-book-finder.iml" filepath="$PROJECT_DIR$/prh-book-finder.iml" />
     </modules>
   </component>
 </project>
